@@ -2,7 +2,7 @@ let express = require("express"),
 bp = require("body-parser"),
 cors = require("cors"),
 server = express(),
-session = require('./server-assets/auth/session'),
+session = require('./server-assets/auth/session')
 
 var port = 3000;
 require("./server-assets/db/mlab-config");
@@ -36,4 +36,3 @@ server.use("*", (error, req, res, next) => {
     console.log("the server is running... Port:", port);
    });
 
-   

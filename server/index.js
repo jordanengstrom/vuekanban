@@ -2,12 +2,13 @@ let express = require("express"),
 bp = require("body-parser"),
 cors = require("cors"),
 server = express(),
-session = require('./server-assets/auth/session')
+session = require('./server-assets/auth/sessions')
 
 var port = 3000;
 require("./server-assets/db/mlab-config");
 
-let authRoutes = require('./server-assets/auth/routes')
+let authRoutes = require('./server-assets/auth/routes'),
+boardRoutes = require('./server-assets/routes/boards')
 // come back here
 
 var whitelist = ['http://localhost:8080']
@@ -27,6 +28,8 @@ server.use(bp.urlencoded({ extended: true }))
 server.use(authRoutes);
 
 // Your routes here
+server.use(boardRoutes);
+
 
 server.use("*", (error, req, res, next) => {
     res.status(400).send(error);

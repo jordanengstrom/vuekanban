@@ -23,17 +23,16 @@ router.post('/auth/register', (req, res) => {
 router.post("/auth/login", (req, res) => {
    Users.findOne({ username: req.body.username }).then(user => {
        if (!user) {
-           return res.status(401).send(errorMessage)
+           return res.status(401).send(errorMessage);
        }
        if (!user.validatePassword(req.body.password)) {
-           return res.status(401).send(errorMessage)
+           return res.status(401).send(errorMessage);
        }
-       user.password = null
-       req.session.uid = user._id
-
-       res.send({ message: "Successfully logged in", user })
-   })
-})
+       user.password = null;
+       req.session.uid = user._id;
+       res.send({ message: "Successfully logged in", user });
+   });
+});
 
 router.get('/auth/authenticate', (req, res) => {
    Users.findById(req.session.uid)
@@ -48,11 +47,12 @@ router.get('/auth/authenticate', (req, res) => {
            return res.status(500).send({
                error: err
            })
-       })
-})
+       });
+});
+
 router.delete('/auth/logout', (req, res) => {
-   req.session.destroy()
-   res.send("Successfully logged out")
-})
+   req.session.destroy();
+   res.send("Successfully logged out");
+});
 
 module.exports = router;

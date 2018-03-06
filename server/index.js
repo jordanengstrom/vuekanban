@@ -8,7 +8,10 @@ var port = 3000;
 require("./server-assets/db/mlab-config");
 
 let authRoutes = require('./server-assets/auth/routes'),
-boardRoutes = require('./server-assets/routes/boards')
+boardRoutes = require('./server-assets/routes/boards'),
+listRoutes = require('./server-assets/routes/lists'),
+taskRoutes = require('./server-assets/routes/tasks'),
+commentRoutes = require('./server-assets/routes/comments')
 // come back here
 
 var whitelist = ['http://localhost:8080']
@@ -29,6 +32,9 @@ server.use(authRoutes);
 
 // Your routes here
 server.use(boardRoutes);
+server.use(listRoutes);
+server.use(taskRoutes);
+server.use(commentRoutes);
 
 
 server.use("*", (error, req, res, next) => {

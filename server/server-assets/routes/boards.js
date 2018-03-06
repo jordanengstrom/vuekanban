@@ -39,11 +39,14 @@ router.put('/api/boards/:boardId', (req, res, next) => {
 });
 
 router.delete('/api/boards/:boardId', (req, res, next) => {
-   Boards.findByIdAndRemove(req.params.boardId)
+   Boards.findById(req.params.boardId)
        .then(board => {
-           return res.send('Deleted Board!')
+           board.remove();
+           return res.send('Deleted Board!');
        })
-       .catch(next)
+       .catch(next);
 });
+
+
 
 module.exports = router;

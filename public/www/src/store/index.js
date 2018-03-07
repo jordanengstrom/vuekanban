@@ -26,13 +26,16 @@ export default new vuex.Store({
         comments: []
     },
     mutations: {
-        setLists(state,payload) {
+        setTasks(state, payload) {
+            state.tasks = payload;
+        },
+        setLists(state, payload) {
             state.lists = payload
         },
         setBoards(state, payload) {
             state.boards = payload
         },
-        setBoard(state,payload) {
+        setBoard(state, payload) {
             state.board = payload
         },
         // START AUTH MUTATIONS
@@ -49,8 +52,23 @@ export default new vuex.Store({
     },
     actions: {
 
+        // region COMMENTS
+        getTasks({commit, dispatch}, payload) {
+            console.log(payload)
+            serverAPI.get('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks')
+                .then(res => {
+                    console.log(res)
+                    // commit('setTasks', res.data)
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+
+        // endregion   
+
         // region LISTS
-        getLists({commit, dispatch}, payload) {
+        getLists({ commit, dispatch }, payload) {
             serverAPI.get('boards/' + payload + '/lists')
                 .then(res => {
                     commit('setLists', res.data)
@@ -59,11 +77,29 @@ export default new vuex.Store({
                     console.log(err)
                 })
         },
-        addList({commit, dispatch}, payload){
-            console.log(payload)
+        addList({ commit, dispatch }, payload) {
             serverAPI.post('boards/' + payload.boardId + '/lists', payload.name)
                 .then(res => {
-                    dispatch('getLists')
+                    dispatch('getLists', res.data.boardId);
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        deleteList({ commit, dispatch }, payload) {
+            // console.log(payload);
+            serverAPI.delete('boards/' + payload.boardId + '/lists/' + payload.listId)
+                .then(res => {
+                    dispatch('getLists', res.data)
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+        editList({ commit, dispatch }, payload) {
+            serverAPI.put('boards/' + payload.boardId + '/lists/' + payload._id, payload)
+                .then(res => {
+                    dispatch('getLists', res.data.boardId)
                 })
                 .catch(err => {
                     console.log(err)

@@ -76,7 +76,6 @@ export default {
     editBoard(event) {
       var form = event.target
       this.$store.dispatch('editBoard', {name: form.name.value, _id: form.id.value})
-      this
     }
   },
   computed:{

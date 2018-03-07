@@ -30,7 +30,7 @@
         // },
         computed: {
             loadBoard() {
-                console.log(this.$store.state.board)
+                // console.log(this.$store.state.board)
                 return this.$store.state.board
             },
         },

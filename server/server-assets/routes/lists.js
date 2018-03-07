@@ -11,8 +11,9 @@ router.get('/api/boards/:boardId/lists', (req, res, next) => {
         .catch(next);
 });
 // Boards.find({ userId: req.session.uid })
-router.post('/api/boards/:boardId/lists', (req, res, next) => {
-    req.body.boardId = req.params.boardId;
+router.post('/api/boards/:theboardId/lists', (req, res, next) => {
+    req.body.boardId = req.params.theboardId;
+    // req.body.name = req.params.nam
     Lists.create(req.body)
         .then(list => {
             res.send(list);
@@ -36,7 +37,7 @@ router.delete('/api/boards/:boardId/lists/:listId', (req, res, next) => {
     Lists.findById(req.params.listId)
     .then(list => {
         list.remove();
-        return res.send('Deleted List!');
+        return res.send(list.boardId);
     })
     .catch(next);
 });

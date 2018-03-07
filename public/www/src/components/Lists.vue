@@ -9,14 +9,20 @@
         <div class="card" style="width: 18rem;" v-for="list in lists">
             <div class="card-body">
                 <h5 class="card-title">{{list.name}}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <tasks :board="board" :list="list"></tasks>
+                <i class="fas fa-minus-square pointer" @click="deleteList(list)"></i>
             </div>
+            <form @submit.prevent="editList">
+                <input type="text" :placeholder="list.name" name="name" value="">
+                <input type="text" :placeholder="list._id" name="id" :value="list._id" hidden>            
+                <button type="submit" class="brtn btn-submit">Update Name</button>
+              </form>
         </div>
     </div>
 </template>
 
 <script>
+    import Tasks from './Tasks'
     export default {
         name: 'List',
         data() {
@@ -24,9 +30,19 @@
                 createdList: {}
             }
         },
+        mounted(){
+            this.$store.dispatch('getTasks', {boardId: this.board._id, listId: list._id});
+        },
         methods: {
             addList() {
-                this.$store.dispatch('addList', {name: this.createdList.name, boardId: this.board._id})
+                this.$store.dispatch('addList', {name: this.createdList, boardId: this.board._id})
+            },
+            deleteList(list) {
+                this.$store.dispatch('deleteList', {listId: list._id, boardId: this.board._id})
+            },
+            editList(event) {
+                var form = event.target
+                this.$store.dispatch('editList', {name: form.name.value, _id: form.id.value, boardId: this.board._id})
             }
         },
         computed: {
@@ -37,6 +53,10 @@
                 return this.$store.state.board
             }
         },
+        component: {
+            Tasks
+        },
+
         props: ['board']
     }
 </script>

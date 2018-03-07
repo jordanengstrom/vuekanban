@@ -27,11 +27,18 @@
       <div class="list-group">
         <div v-for="board in boards" class="list-group-item">
           <div>
-            <h4>{{board.name}}</h4>
-            <i class="fas fa-minus-square" @click="deleteBoard(board)"></i>
-            <!-- <i class="fas fa-pen-square" @click="editBoard(board)"></i> -->
-            <form @submit.prevent="editBoard()">
-              <input type="text" :placeholder="board.name"  v-model="editedBoard[board.name]">
+            <div>
+            <router-link :to="{path: '/board/' + board._id}" >
+              <h4>{{board.name}}</h4>
+            </router-link>
+              <i class="fas fa-minus-square pointer" @click="deleteBoard(board)"></i>
+              <!-- <i class="fas fa-pen-square" @click="editBoard(board)"></i> -->
+            </div>
+            <form @submit.prevent="editBoard">
+              <input type="text" :placeholder="board.name" name="name" value="">
+              <input type="text" :placeholder="board._id" name="id" :value="board._id" hidden>
+              <!-- <input class="" type="text" :value="board._id"> -->
+          
               <button type="submit" class="brtn btn-submit">Submit</button>
             </form>
           </div>
@@ -46,12 +53,11 @@
 <script>
 export default {
   name: 'Home',
+  // This is temporary data that Home.vue and it's methods have access too.
+  // It's inaccessible outside of this file.
   data () {
     return {
-      createdBoard: {},
-      editedBoard: {
-        "Test board 3": 'dssfds'
-      }
+      createdBoard: {}
     }
   },
   mounted(){
@@ -67,8 +73,10 @@ export default {
     deleteBoard(board) {
       this.$store.dispatch('deleteBoard', board)
     },
-    editBoard(board) {
-      this.$store.dispatch('editBoard', board)
+    editBoard(event) {
+      var form = event.target
+      this.$store.dispatch('editBoard', {name: form.name.value, _id: form.id.value})
+      this
     }
   },
   computed:{
@@ -84,5 +92,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .pointer {
+    cursor: pointer;
+  }
+  .hidden{
+    visibility: hidden;
+  }
 
 </style>

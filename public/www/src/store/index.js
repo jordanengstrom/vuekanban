@@ -19,14 +19,21 @@ vue.use(vuex)
 export default new vuex.Store({
     state: {
         user: {},
+        board: {},
         boards: [],
         lists: [],
         tasks: [],
         comments: []
     },
     mutations: {
-        setBoards(state, payload){
+        setLists(state,payload) {
+            state.lists = payload
+        },
+        setBoards(state, payload) {
             state.boards = payload
+        },
+        setBoard(state,payload) {
+            state.board = payload
         },
         // START AUTH MUTATIONS
         loginUser(state, payload) {
@@ -34,15 +41,38 @@ export default new vuex.Store({
         },
         clearData(state, payload) {
             state.user = {},
-            state.boards = [],
-            state.lists = [],
-            state.tasks = [],
-            state.comments = []
+                state.boards = [],
+                state.lists = [],
+                state.tasks = [],
+                state.comments = []
         },
     },
     actions: {
 
-        getBoards({commit, dispatch}, payload){
+        // region LISTS
+        getLists({commit, dispatch}, payload) {
+            serverAPI.get('boards/' + payload + '/lists')
+                .then(res => {
+                    commit('setLists', res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        addList({commit, dispatch}, payload){
+            console.log(payload)
+            serverAPI.post('boards/' + payload.boardId + '/lists', payload.name)
+                .then(res => {
+                    dispatch('getLists')
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        // endregion
+
+        // region BOARDS
+        getBoards({ commit, dispatch }, payload) {
             serverAPI.get('boards')
                 .then(res => {
                     commit('setBoards', res.data)
@@ -52,17 +82,27 @@ export default new vuex.Store({
                 })
         },
 
-        addBoard({commit, dispatch}, payload) {
-            serverAPI.post('boards', payload) 
+        getBoard({ commit, dispatch }, payload) {
+            serverAPI.get('boards/' + payload)
+                .then(res => {
+                    commit('setBoard', res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+
+        addBoard({ commit, dispatch }, payload) {
+            serverAPI.post('boards', payload)
                 .then(res => {
                     dispatch('getBoards');
                 })
                 .catch(err => {
                     console.log(err);
-                })                
+                })
         },
 
-        deleteBoard({commit, dispatch}, payload) {
+        deleteBoard({ commit, dispatch }, payload) {
             console.log(payload._id)
             serverAPI.delete('boards/' + payload._id)
                 .then(res => {
@@ -73,18 +113,18 @@ export default new vuex.Store({
                 })
         },
 
-        editBoard({commit, dispatch}, payload) {
-            console.log(payload._id)
+        editBoard({ commit, dispatch }, payload) {
+            console.log('EDIT USER ID', payload)
             serverAPI.put('boards/' + payload._id, payload)
                 .then(res => {
-                    dispatch('getBoards')                    
+                    dispatch('getBoards')
                 })
                 .catch(err => {
                     console.log(err)
                 })
         },
 
-
+        // endregion
 
 
         //region START AUTH ROUTES

@@ -11,6 +11,15 @@ router.get('/api/boards', (req, res, next) => {
         .catch(next);
 });
 
+// GET BOARD BY BOARD ID
+router.get('/api/boards/:boardId', (req, res, next) => {
+    Boards.findById(req.params.boardId) // FINDS BOARDS TIED TO userId BY SETTING IT TO SESSION ID
+        .then(board => {
+            res.send(board);
+        })
+        .catch(next);
+});   
+
 router.post('/api/boards', (req, res, next) => {
     req.body.userId = req.session.uid //GIVES BOARD USER ID
     Users.findById(req.session.uid)

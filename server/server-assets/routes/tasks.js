@@ -37,7 +37,7 @@ router.delete('/api/boards/:boardId/lists/:listId/tasks/:taskId', (req, res, nex
     Tasks.findById(req.params.taskId)
     .then(task => {
         task.remove();
-        return res.send('Deleted Task!');
+        return res.send({boardId: task.boardId, listId: task.listId});
     })
     .catch(next);
 });

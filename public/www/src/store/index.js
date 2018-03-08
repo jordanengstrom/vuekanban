@@ -22,12 +22,16 @@ export default new vuex.Store({
         board: {},
         boards: [],
         lists: [],
-        tasks: [],
-        comments: []
+        tasks: {},
+        comments: {}
     },
     mutations: {
+        setComments(state, payload) {
+            console.log(payload)
+            vue.set(state.comments, payload.taskId, payload.comments)
+        },
         setTasks(state, payload) {
-            state.tasks = payload;
+            vue.set(state.tasks, payload.listId, payload.tasks)
         },
         setLists(state, payload) {
             state.lists = payload
@@ -46,22 +50,78 @@ export default new vuex.Store({
             state.user = {},
                 state.boards = [],
                 state.lists = [],
-                state.tasks = [],
-                state.comments = []
-        },
+                state.tasks = {},
+                state.comments = {}
+        }
     },
     actions: {
 
         // region COMMENTS
-        getTasks({commit, dispatch}, payload) {
-            console.log(payload)
-            serverAPI.get('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks')
+        getComments({ commit, dispatch }, payload) {
+            serverAPI.get('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks/' + payload.taskId + '/comments')
                 .then(res => {
-                    console.log(res)
-                    // commit('setTasks', res.data)
+                    commit('setComments', { taskId: payload.taskId, comments: res.data })
                 })
                 .catch(err => {
                     console.log(err);
+                })
+        },
+        addComment({commit, dispatch}, payload) {
+            serverAPI.post('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks/' + payload.taskId + '/comments', payload)
+                .then(res => {
+                    dispatch('getComments', res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        deleteComment({commit, dispatch}, payload) {
+            serverAPI.delete('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks/' + payload.taskId + '/comments/' + payload._id)
+                .then(res => {
+                    dispatch('getComments', res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+
+        // endregion COMMENTS
+
+        // region TASKS
+        getTasks({ commit, dispatch }, payload) {
+            serverAPI.get('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks')
+                .then(res => {
+                    commit('setTasks', { listId: payload.listId, tasks: res.data })
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+        deleteTask({ commit, dispatch }, payload) {
+            serverAPI.delete('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks/' + payload._id)
+                .then(res => {
+                    dispatch('getTasks', res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        addTask({ commit, dispatch }, payload) {
+            serverAPI.post('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks', payload)
+                .then(res => {
+                    dispatch('getTasks', res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        editTask({ commit, dispatch }, payload) {
+            serverAPI.put('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks/' + payload._id, payload)
+                .then(res => {
+                    dispatch('getTasks', res.data)
+                })
+                .catch(err => {
+                    console.log(err)
                 })
         },
 
@@ -87,7 +147,6 @@ export default new vuex.Store({
                 })
         },
         deleteList({ commit, dispatch }, payload) {
-            // console.log(payload);
             serverAPI.delete('boards/' + payload.boardId + '/lists/' + payload.listId)
                 .then(res => {
                     dispatch('getLists', res.data)

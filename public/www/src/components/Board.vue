@@ -2,7 +2,15 @@
     <div class="board">
         <h1>Hiiiieeeeeeeee</h1>
         <h2>{{loadBoard.name}}</h2>
-        <lists :board="loadBoard"></lists>
+        <div>
+                <form @submit.prevent="addList()">
+                    <input type="text" name="name" placeholder="List Name" v-model="createdList.name">
+                    <button type="submit" class="btn btn-submit">Create List</button>
+                </form>
+            </div>
+        <div v-for="list in lists">
+            <lists :list="list" :board="loadBoard"></lists>
+        </div>
     </div>
 
 
@@ -16,23 +24,29 @@
         // It's inaccessible outside of this file.
         data() {
             return {
-                
+                createdList: {}
             }
         },
         mounted() {
             this.$store.dispatch('getBoard', this.$route.params.boardId);
             this.$store.dispatch('getLists', this.$route.params.boardId);
         },
-        // methods: {
-        //     getBoards() {
-        //         this.$store.dispatch('getBoards')
-        //     },
-        // },
+        methods: {
+            addList() {
+                this.$store.dispatch('addList', { name: this.createdList, boardId: this.$route.params.boardId })
+            },
+        },
         computed: {
             loadBoard() {
-                // console.log(this.$store.state.board)
                 return this.$store.state.board
             },
+            loadList() {
+                return this.$store.state.list
+            },
+            lists() {
+                return this.$store.state.lists
+            }
+            
         },
         components: {
             Lists

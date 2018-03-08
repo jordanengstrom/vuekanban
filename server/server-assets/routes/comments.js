@@ -37,7 +37,7 @@ router.put('/api/boards/:boardId/lists/:listId/tasks/:taskId/comments/:commentId
 router.delete('/api/boards/:boardId/lists/:listId/tasks/:taskId/comments/:commentId', (req, res, next) => {
     Comments.findByIdAndRemove(req.params.commentId)
         .then(comment => {
-            return res.send('Deleted Task!')
+            return res.send({boardId: comment.boardId, listId: comment.listId, taskId: comment.taskId})
         })
         .catch(next)
 });

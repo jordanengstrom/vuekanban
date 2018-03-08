@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Signup from '@/components/Signup'
 import Board from '@/components/Board'
+import List from '@/components/Lists'
 
 Vue.use(Router)
 
@@ -25,10 +26,17 @@ export default new Router({
       component: Signup
     },
     {
-      path: '/board/:boardId' ,
+      path: '/board/:boardId',
       name: 'Board',
       props: true,
       component: Board
+    },
+    {
+      path: '/board/:boardId/lists/:listId',
+      name: 'List',
+      props: true,
+      component: List
     }
+
   ]
 })

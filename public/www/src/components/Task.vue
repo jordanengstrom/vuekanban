@@ -1,6 +1,22 @@
 <template>
     <div class="tasks">
-        <h5 class="mb-1">{{task.body}}</h5>
+        <div>
+            <div class="btn-group dropright">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Move task
+                </button>
+                <div class="dropdown-menu">
+                    <!-- Dropdown menu links -->
+                    <div class="dropdown-item" v-for="list in lists">
+                        <p @click="moveToList(list)">{{list.name}}</p>
+                    </div>
+
+                </div>
+            </div>
+            <div>
+                <h5 class="mb-1">{{task.body}}</h5>
+            </div>
+        </div>
         <div>
             <i class="fas fa-minus-square pointer" @click="deleteTask(task)"></i>
         </div>
@@ -46,6 +62,12 @@
                 })
         },
         methods: {
+            moveToList(list) {
+                this.$store.dispatch('moveToList',
+                     {task: this.task,
+                     listId: list._id,
+                    oldId: this.task.listId})
+            },
             addComment(event) {
                 var form = event.target
 
@@ -72,8 +94,12 @@
             }
         },
         computed: {
+            lists() {
+                return this.$store.state.lists
+            },
+            
             comments() {
-               return this.$store.state.comments[this.task._id] || []
+                return this.$store.state.comments[this.task._id] || []
             }
         },
         props: ['task'],

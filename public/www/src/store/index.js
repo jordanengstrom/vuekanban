@@ -27,10 +27,10 @@ export default new vuex.Store({
     },
     mutations: {
         setComments(state, payload) {
-            console.log(payload)
             vue.set(state.comments, payload.taskId, payload.comments)
         },
         setTasks(state, payload) {
+            console.log("moved task payload: ", payload);
             vue.set(state.tasks, payload.listId, payload.tasks)
         },
         setLists(state, payload) {
@@ -88,6 +88,26 @@ export default new vuex.Store({
         // endregion COMMENTS
 
         // region TASKS
+        moveToList({commit, dispatch}, payload) {
+            console.log("Moved task:", payload);
+            serverAPI.put('boards/' + payload.task.boardId + '/lists/' + payload.listId + '/tasks/' + payload.task._id,
+                 {boardId: payload.task.boardId,
+                 body: payload.task.body,
+                 listId: payload.listId})
+                .then(res => {
+                    console.log(res.data)
+                    dispatch('getTasks', 
+                        {listId: res.data.listId,
+                         boardId: res.data.boardId
+                        })
+                    dispatch('getTasks', 
+                        {boardId: res.data.boardId, 
+                         listId: payload.oldId})
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
         getTasks({ commit, dispatch }, payload) {
             serverAPI.get('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks')
                 .then(res => {
@@ -97,6 +117,16 @@ export default new vuex.Store({
                     console.log(err);
                 })
         },
+        // getUpdatedTasks({commit, dispatch}, payload) {
+        //     serverAPI.get('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks')
+        //         .then(res => {
+        //             console.log("Setting tasks with: ", res.data)
+        //             commit('setTasks', res.data)
+        //             })
+        //         .catch(err => {
+        //             console.log(err)
+        //         })
+        // },
         deleteTask({ commit, dispatch }, payload) {
             serverAPI.delete('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks/' + payload._id)
                 .then(res => {
@@ -198,7 +228,6 @@ export default new vuex.Store({
         },
 
         deleteBoard({ commit, dispatch }, payload) {
-            console.log(payload._id)
             serverAPI.delete('boards/' + payload._id)
                 .then(res => {
                     dispatch('getBoards')
@@ -209,7 +238,6 @@ export default new vuex.Store({
         },
 
         editBoard({ commit, dispatch }, payload) {
-            console.log('EDIT USER ID', payload)
             serverAPI.put('boards/' + payload._id, payload)
                 .then(res => {
                     dispatch('getBoards')
@@ -224,10 +252,8 @@ export default new vuex.Store({
 
         //region START AUTH ROUTES
         login({ commit, dispatch }, payload) {
-            console.log("LOGIN USER DATA", payload)
             auth.post('login', payload)
                 .then(res => {
-                    console.log("LOGIN USER DATA", res.data.user)
                     commit('loginUser', res.data.user)
                     router.push({ name: 'Home' })
                     // dispatch('getMyTunes') //ALLOWS FAV MUSIC TO POPULATE ON LOGIN
@@ -240,7 +266,6 @@ export default new vuex.Store({
         authenticate({ commit, dispatch }) {
             auth.get('authenticate')
                 .then(res => {
-                    console.log("LOGIN USER DATA", res.data)
                     commit('loginUser', res.data)
                 })
                 .catch(err => {

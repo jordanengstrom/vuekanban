@@ -1,13 +1,13 @@
 <template>
     <div class="board">
-        <h1>Hiiiieeeeeeeee</h1>
+        <navbar :user="user"></navbar>
         <h2>{{loadBoard.name}}</h2>
         <div>
-                <form @submit.prevent="addList()">
-                    <input type="text" name="name" placeholder="List Name" v-model="createdList.name">
-                    <button type="submit" class="btn btn-submit">Create List</button>
-                </form>
-            </div>
+            <form @submit.prevent="addList()">
+                <input type="text" name="name" placeholder="List Name" v-model="createdList.name">
+                <button type="submit" class="btn btn-submit">Create List</button>
+            </form>
+        </div>
         <div v-for="list in lists">
             <lists :list="list" :board="loadBoard"></lists>
         </div>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+    import Navbar from './Navbar'
     import Lists from './Lists'
     export default {
         name: 'Board',
@@ -45,11 +46,15 @@
             },
             lists() {
                 return this.$store.state.lists
+            },
+            user() {
+                return this.$store.state.user
             }
-            
+
         },
         components: {
-            Lists
+            Lists,
+            Navbar
         }
 
     }

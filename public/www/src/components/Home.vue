@@ -1,16 +1,6 @@
 <template>
   <div class="Home">
-<nav class="navbar navbar-light bg-light">
-    <div>
-      <h3 class="navbar-brand">
-          <i class="fas fa-map-pin"></i> All aBoard
-      </h3>  
-    </div>
-    <div>
-      <p>{{user.username}}</p>
-      <p>logout button</p>
-    </div>
-  </nav>
+    <navbar :user="user"></navbar>
   <div>
     <div>
       <h2>Get aBoard you Boards</h2>
@@ -51,6 +41,7 @@
 </template>
 
 <script>
+  import Navbar from './Navbar'
 export default {
   name: 'Home',
   // This is temporary data that Home.vue and it's methods have access too.
@@ -85,6 +76,9 @@ export default {
     user(){
       return this.$store.state.user
     }
+  },
+  components: {
+    Navbar
   }
 }
 </script>

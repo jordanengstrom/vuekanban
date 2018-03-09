@@ -3,8 +3,9 @@
         <div class="flexor">
             <div class="login-holder">
                 <div class="logo-section">
-                    <i class="fas fa-3x fa-map-pin"></i>
-                    <h4>Sign in the Board-it</h4>
+                    <img src="../assets/ship-logo-purp.png" height="100">
+                    <h1>All aBoard</h1>
+                    <p>Login</p>
                 </div>
                 <div>
                     <form @submit.prevent="login()">
@@ -51,7 +52,9 @@
 <style scoped>
     .login {
         height: 100vh;
-        background-color: #f9f9f9;
+        background-image: url('../assets/vuekanban-bg.jpg');
+        background-size: cover;
+        background-position: center;
     }
 
     .flexor {
@@ -59,21 +62,32 @@
         flex-direction: column;
         justify-content: center;
     }
-    .login-holder{
+
+    .login-holder {
         padding: 1.5rem;
         background-color: white;
         border: .1rem solid #e2e2e2;
         border-radius: 10px;
+        color: #6c6c6d
     }
-    .flexor2{
+
+    .flexor2 {
         display: flex;
         justify-content: center;
     }
-    .logo-section{
-        margin-bottom: 3rem;
+
+    .logo-section {
+        margin-bottom: 1.5rem;
         text-align: center;
+        font-family: 'Paytone One', sans-serif;
     }
-    .orange{
-        color: rgb(248, 167, 16);
+    .btn-outline-success {
+        color: #797691;
+        border-color: #797691;
+    }
+    .btn-outline-success:hover {
+        color: #fff;
+        border-color: #797691;
+        background-color: #797691;
     }
 </style>

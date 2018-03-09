@@ -123,6 +123,9 @@
   .planks-title {
     color: #6c6c6d;
   }
+  a:hover{
+    text-decoration: none;
+  }
 
   .dropdown-toggle {
     background-color: #797691;
@@ -200,7 +203,7 @@
   }
 
   .marg {
-    margin: 0 12rem;
+    margin: 0 10rem;
     padding-bottom: 3rem;
   }
 
@@ -208,6 +211,7 @@
     font-family: 'Quattrocento Sans', sans-serif;
     color: #c69376;
     font-weight: 700;
+    margin-bottom: 0
     /* color: #6c948c; */
     /* color: #5e796c; */
   }
@@ -228,5 +232,13 @@
 
   .border-links h4 {
     text-decoration: none;
+  }
+  .dropleft .dropdown-toggle::before{
+    margin-right: 0;
+    vertical-align: 0;
+    visibility: hidden;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 0;
   }
 </style>

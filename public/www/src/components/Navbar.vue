@@ -2,14 +2,18 @@
     <div>
         <nav class="navbar">
             <div class="flexor">
-                <div>
-                    <img class="pad-r" src="../assets/ship-logo.png" height="50px">
-                </div>
-                <div>
-                    <h3>
-                        All aBoard
-                    </h3>
-                </div>
+                <router-link :to="{name: 'Home'}">
+                    <div>
+                        <img class="pad-r" src="../assets/ship-logo.png" height="50px">
+                    </div>
+                </router-link>
+                <router-link :to="{name: 'Home'}">
+                    <div>
+                        <h3>
+                            All aBoard
+                        </h3>
+                    </div>
+                </router-link>
             </div>
             <div>
                 <div class="dropdown pointer">
@@ -35,6 +39,11 @@
 
             }
         },
+        methods: {
+            logout() {
+                this.$store.dispatch('logout')
+            }
+        },
         props: ['user']
     }
 
@@ -42,6 +51,14 @@
 
 
 <style scoped>
+    a {
+        color: #fff;
+    }
+
+    a:hover {
+        text-decoration: none
+    }
+
     .pointer {
         cursor: pointer;
     }
@@ -65,7 +82,7 @@
     }
 
     .dropdown-item:hover {
-        background-color:  #f9f9f9;
+        background-color: #f9f9f9;
     }
 
     .flexor {

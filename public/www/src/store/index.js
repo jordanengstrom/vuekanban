@@ -37,6 +37,10 @@ export default new vuex.Store({
             state.lists = payload
         },
         setBoards(state, payload) {
+            console.log(payload)
+            payload.sort(function(a,b){
+                return new Date(a.date) - new Date(b.date);
+              });
             state.boards = payload
         },
         setBoard(state, payload) {
@@ -48,10 +52,11 @@ export default new vuex.Store({
         },
         clearData(state, payload) {
             state.user = {},
-                state.boards = [],
-                state.lists = [],
-                state.tasks = {},
-                state.comments = {}
+            state.board = {},
+            state.boards = [],
+            state.lists = [],
+            state.tasks = {},
+            state.comments = {}
         }
     },
     actions: {
@@ -288,6 +293,7 @@ export default new vuex.Store({
                 .then(res => {
                     commit('loginUser', {})
                     commit('clearData', res)
+                    router.push({name: 'Login'})
                 })
         }
         //endregion END AUTH ACTIONS

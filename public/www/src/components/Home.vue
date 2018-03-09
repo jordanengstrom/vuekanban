@@ -164,15 +164,12 @@
   }
 
   .dropdown-menu {
+    margin-top: 3px;
     padding: 0;
   }
 
   ::-webkit-input-placeholder {
     text-align: center;
-  }
-
-  .dropdown-menu-show {
-    transform: translate3d(-187px, 2.5px, 0px) !important;
   }
 
   .faButtons {

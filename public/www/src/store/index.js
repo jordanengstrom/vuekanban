@@ -1,16 +1,18 @@
 import vue from 'vue'
 import vuex from 'vuex'
 import axios from 'axios'
-
 import router from "../router/index";
 
+var production = !window.location.host.includes('localhost')
+var baseUrl = production ? '//port-vue-kan-ban.herokuapp.com/' : '//localhost:3000/'
+
 var auth = axios.create({
-    baseURL: '//localhost:3000/auth/',
+    baseURL: baseUrl + 'auth/',
     withCredentials: true
 });
 
 var serverAPI = axios.create({
-    baseURL: '//localhost:3000/api/',
+    baseURL: baseUrl + 'api/',
     withCredentials: true
 });
 
@@ -223,6 +225,7 @@ export default new vuex.Store({
         },
 
         addBoard({ commit, dispatch }, payload) {
+            console.log("Payload: ", payload)
             serverAPI.post('boards', payload)
                 .then(res => {
                     dispatch('getBoards');

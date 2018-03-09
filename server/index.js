@@ -4,7 +4,8 @@ cors = require("cors"),
 server = express(),
 session = require('./server-assets/auth/sessions')
 
-var port = 3000;
+// if spun on heroku, goes left, if spun locally, goes right
+var port = process.env.PORT || 3000;
 require("./server-assets/db/mlab-config");
 
 let authRoutes = require('./server-assets/auth/routes'),
@@ -12,9 +13,9 @@ boardRoutes = require('./server-assets/routes/boards'),
 listRoutes = require('./server-assets/routes/lists'),
 taskRoutes = require('./server-assets/routes/tasks'),
 commentRoutes = require('./server-assets/routes/comments')
-// come back here
 
-var whitelist = ['http://localhost:8080']
+var whitelist = ['http://localhost:8080', 'https://port-vue-kan-ban.herokuapp.com/']
+
 var corsOptions = {
    origin: function(origin, callback){
        var originIsWhiteListed = whitelist.indexOf(origin) !== -1;
@@ -27,10 +28,10 @@ server.use(cors(corsOptions))
 server.use(session)
 server.use(bp.json())
 server.use(bp.urlencoded({ extended: true }))
+server.use(express.static(__dirname + "/../public/www/dist"))
 
 server.use(authRoutes);
 
-// Your routes here
 server.use(boardRoutes);
 server.use(listRoutes);
 server.use(taskRoutes);

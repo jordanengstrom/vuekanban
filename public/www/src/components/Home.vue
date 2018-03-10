@@ -35,7 +35,7 @@
                   </div>
                   <div class="flexor2">
                     <transition-group name="" enter-active-class="animated flipInX" leave-active-class="animated fadeOut">
-                    <div :key="board._id" v-if="show == true && boardId == board._id">
+                      <div :key="board._id" v-if="show == true && boardId == board._id">
                         <form @submit.prevent="editBoard">
                           <input type="text" placeholder="change board name" name="name" value="">
                           <input type="text" :placeholder="board._id" name="id" :value="board._id" hidden>
@@ -44,7 +44,7 @@
                       </div>
                       <div :key="board.name" v-else></div>
                     </transition-group>
-                    </div>
+                  </div>
                   <div class="faButtons">
                     <i class="fas effect fa-wrench pointer" @click="showForm(board._id)"></i>
                     <i class="far effect fa-minus-square pointer" @click="deleteBoard(board)"></i>
@@ -74,7 +74,9 @@
       }
     },
     mounted() {
+      this.$store.dispatch('authenticate')
       this.$store.dispatch('getBoards')
+
     },
     methods: {
       getBoards() {
@@ -123,7 +125,8 @@
   .planks-title {
     color: #6c6c6d;
   }
-  a:hover{
+
+  a:hover {
     text-decoration: none;
   }
 
@@ -217,7 +220,7 @@
     margin-bottom: 0.25rem;
   }
 
-  .list-group-item:hover{
+  .list-group-item:hover {
     background-color: #f9f9f9;
   }
 
@@ -230,7 +233,8 @@
   .border-links h4 {
     text-decoration: none;
   }
-  .dropleft .dropdown-toggle::before{
+
+  .dropleft .dropdown-toggle::before {
     margin-right: 0;
     vertical-align: 0;
     visibility: hidden;

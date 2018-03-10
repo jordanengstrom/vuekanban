@@ -53,11 +53,11 @@ export default new vuex.Store({
             state.user = payload
         },
         clearData(state, payload) {
-            state.user = {},
-            state.board = {},
-            state.boards = [],
-            state.lists = [],
-            state.tasks = {},
+            state.user = {}
+            state.board = {}
+            state.boards = []
+            state.lists = []
+            state.tasks = {}
             state.comments = {}
         }
     },
@@ -264,7 +264,6 @@ export default new vuex.Store({
                 .then(res => {
                     commit('loginUser', res.data.user)
                     router.push({ name: 'Home' })
-                    // dispatch('getMyTunes') //ALLOWS FAV MUSIC TO POPULATE ON LOGIN
                 })
                 .catch(err => {
                     console.log(err);
@@ -272,13 +271,19 @@ export default new vuex.Store({
                 })
         },
         authenticate({ commit, dispatch }) {
-            auth.get('authenticate')
-                .then(res => {
-                    commit('loginUser', res.data)
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+            return new Promise((resolve, reject)=>{
+                auth.get('authenticate')
+                    .then(res => {
+                        commit('loginUser', res.data)
+                        resolve()
+                        // router.push({ name: 'Home' })
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        router.push({ name: 'Login' })
+                        reject(err)
+                    })
+            })
         },
         signup({ commit, dispatch }, payload) {
             auth.post('register', payload)

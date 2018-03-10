@@ -1,7 +1,19 @@
 <template>
     <div class="comment">
-        <p>{{comment.body}}</p>
-        <div><i class="fas fa-minus-square pointer" @click="deleteComment(comment)"></i></div>
+        <div class="flex-center">
+            <div>
+                <p>{{comment.body}}</p>
+            </div>
+            <div class="dropdown">
+                <i data-toggle="dropdown" title="additional options" class="far fa-times-circle size-color pointer"></i>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item">
+                        <button class="btn btn-outline-danger btn-block" @click="deleteComment(comment)">delete</button>
+                        <!-- <i class="fas fa-minus-square pointer" ></i> -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -21,6 +33,19 @@
     }
 </script>
 
-<style>
-
+<style scoped>
+    .flex-center {
+        display: flex;
+        justify-content: space-between;
+    }
+    .flex-center p {
+        margin-bottom: 0
+    }
+    .pointer{
+        cursor: pointer;
+    }
+    .size-color{
+        color: #333;
+        font-size: .7rem
+    }
 </style>

@@ -23,7 +23,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-4" v-for="list in lists">
-                        <lists :list="list" :board="loadBoard"></lists>
+                        <lists class="marg" :list="list" :board="loadBoard"></lists>
                     </div>
                 </div>
             </div>
@@ -46,8 +46,11 @@
             }
         },
         mounted() {
-            this.$store.dispatch('getBoard', this.$route.params.boardId);
-            this.$store.dispatch('getLists', this.$route.params.boardId);
+            this.$store.dispatch('authenticate').then(()=>{
+                this.$store.dispatch('getBoard', this.$route.params.boardId)
+                this.$store.dispatch('getLists', this.$route.params.boardId)
+            }
+            );
         },
         methods: {
             addList() {
@@ -78,12 +81,23 @@
 </script>
 
 <style scoped>
+    .board {
+        height: 100vh;
+        background-image: url('../assets/wood.png')
+        /* background-color: #f9f9f9;
+        background-image: url("https://www.transparenttextures.com/patterns/purty-wood.png"); */
+    }
+
     .margins {
         margin: 0 4rem;
     }
-    
+
     a:hover {
         text-decoration: none;
+    }
+
+    .marg {
+        padding-bottom: 2rem;
     }
 
     .dropdown-menu {

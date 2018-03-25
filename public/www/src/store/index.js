@@ -1,16 +1,18 @@
 import vue from 'vue'
 import vuex from 'vuex'
 import axios from 'axios'
-
 import router from "../router/index";
 
+var production = !window.location.host.includes('localhost')
+var baseUrl = production ? '//port-vue-kan-ban.herokuapp.com/' : '//localhost:3000/'
+
 var auth = axios.create({
-    baseURL: '//localhost:3000/auth/',
+    baseURL: baseUrl + 'auth/',
     withCredentials: true
 });
 
 var serverAPI = axios.create({
-    baseURL: '//localhost:3000/api/',
+    baseURL: baseUrl + 'api/',
     withCredentials: true
 });
 
@@ -51,11 +53,11 @@ export default new vuex.Store({
             state.user = payload
         },
         clearData(state, payload) {
-            state.user = {},
-            state.board = {},
-            state.boards = [],
-            state.lists = [],
-            state.tasks = {},
+            state.user = {}
+            state.board = {}
+            state.boards = []
+            state.lists = []
+            state.tasks = {}
             state.comments = {}
         }
     },
@@ -223,6 +225,7 @@ export default new vuex.Store({
         },
 
         addBoard({ commit, dispatch }, payload) {
+            console.log("Payload: ", payload)
             serverAPI.post('boards', payload)
                 .then(res => {
                     dispatch('getBoards');
@@ -261,7 +264,6 @@ export default new vuex.Store({
                 .then(res => {
                     commit('loginUser', res.data.user)
                     router.push({ name: 'Home' })
-                    // dispatch('getMyTunes') //ALLOWS FAV MUSIC TO POPULATE ON LOGIN
                 })
                 .catch(err => {
                     console.log(err);
@@ -269,13 +271,19 @@ export default new vuex.Store({
                 })
         },
         authenticate({ commit, dispatch }) {
-            auth.get('authenticate')
-                .then(res => {
-                    commit('loginUser', res.data)
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+            return new Promise((resolve, reject)=>{
+                auth.get('authenticate')
+                    .then(res => {
+                        commit('loginUser', res.data)
+                        resolve()
+                        // router.push({ name: 'Home' })
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        router.push({ name: 'Login' })
+                        reject(err)
+                    })
+            })
         },
         signup({ commit, dispatch }, payload) {
             auth.post('register', payload)

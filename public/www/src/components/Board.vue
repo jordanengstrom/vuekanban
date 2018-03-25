@@ -1,15 +1,32 @@
 <template>
     <div class="board">
         <navbar :user="user"></navbar>
-        <h2>{{loadBoard.name}}</h2>
-        <div>
-            <form @submit.prevent="addList()">
-                <input type="text" name="name" placeholder="List Name" v-model="createdList.name">
-                <button type="submit" class="btn btn-submit">Create List</button>
-            </form>
-        </div>
-        <div v-for="list in lists">
-            <lists :list="list" :board="loadBoard"></lists>
+        <div class="container-fluid">
+            <div class="margins">
+                <div class="flexor">
+                    <div class="boards-title">
+                        <h2>{{loadBoard.name}}</h2>
+                    </div>
+                    <div class="aligner">
+                        <div class="dropleft">
+                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <form @submit.prevent="addList()">
+                                    <input type="text" name="name" placeholder="List Name" v-model="createdList.name">
+                                    <button type="submit" class="btn btn-submit" hidden>Create List</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4" v-for="list in lists">
+                        <lists class="marg" :list="list" :board="loadBoard"></lists>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -29,8 +46,11 @@
             }
         },
         mounted() {
-            this.$store.dispatch('getBoard', this.$route.params.boardId);
-            this.$store.dispatch('getLists', this.$route.params.boardId);
+            this.$store.dispatch('authenticate').then(()=>{
+                this.$store.dispatch('getBoard', this.$route.params.boardId)
+                this.$store.dispatch('getLists', this.$route.params.boardId)
+            }
+            );
         },
         methods: {
             addList() {
@@ -60,5 +80,62 @@
     }
 </script>
 
-<style>
+<style scoped>
+    .board {
+        height: 100vh;
+        background-image: url('../assets/wood.png')
+        /* background-color: #f9f9f9;
+        background-image: url("https://www.transparenttextures.com/patterns/purty-wood.png"); */
+    }
+
+    .margins {
+        margin: 0 4rem;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    .marg {
+        padding-bottom: 2rem;
+    }
+
+    .dropdown-menu {
+        margin-top: 3px;
+        padding: 0;
+    }
+
+    .aligner {
+        align-self: center;
+    }
+
+    .flexor {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .boards-title {
+        color: #6c6c6d;
+        text-align: center;
+        margin: 1.5rem 0;
+        font-family: 'Paytone One', sans-serif;
+    }
+
+    .dropdown-toggle {
+        background-color: #797691;
+        color: #fff
+    }
+
+    .pointer {
+        cursor: pointer;
+    }
+
+    .dropleft .dropdown-toggle::before {
+        margin-right: 0;
+        vertical-align: 0;
+        visibility: hidden;
+        border-top: 0;
+        border-right: 0;
+        border-bottom: 0;
+    }
 </style>

@@ -18,6 +18,9 @@
                             <input v-model="loginUser.password" class="form-control" type="password" placeholder="Password">
                         </div>
                         <button class="btn btn-block btn-outline-success" type="submit">login</button>
+                        <router-link :to="{name: 'Signup'}">
+                            <button class="btn btn-block btn-outline-info">create account</button>
+                        </router-link>
                     </form>
                 </div>
             </div>
@@ -50,6 +53,14 @@
 
 
 <style scoped>
+    a:hover {
+        text-decoration: none;
+    }
+    
+    .btn {
+        margin-bottom: 1rem;
+    }
+
     .login {
         height: 100vh;
         background-image: url('../assets/vuekanban-bg.jpg');

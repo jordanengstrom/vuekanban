@@ -2,6 +2,8 @@ var router = require('express').Router();
 var Boards = require('../models/board');
 var Users = require('../models/user');
 
+var sortId = 0;
+
 // GET ALL BOARDS BY USER
 router.get('/api/boards', (req, res, next) => {
     Boards.find({ userId: req.session.uid }) // FINDS BOARDS TIED TO userId BY SETTING IT TO SESSION ID

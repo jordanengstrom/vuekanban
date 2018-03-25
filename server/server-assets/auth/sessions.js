@@ -13,6 +13,7 @@ store.on("error", function(err) {
 })
 
 // SESSION CONSTRUCTOR/GUIDELINE
+//@tsignore
 var session = expressSession({
     secret: "movieiohqegnakdljv",
     cookie: {
@@ -21,7 +22,6 @@ var session = expressSession({
    store, // PUTTING ON MONGO SERVER VIA URI
    resave: true,
    saveUninitialized: true
-
 })
 
 module.exports = session;

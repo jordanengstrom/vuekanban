@@ -22,5 +22,4 @@ schema.post('remove', function (next) {
     Comments.remove({ boardId: this._id }).exec();
 });
 
-
 module.exports = mongoose.model(schemaName, schema);

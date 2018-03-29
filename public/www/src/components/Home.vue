@@ -16,7 +16,6 @@
                 <div class="dropdown-menu">
                   <form @submit.prevent="addBoard()">
                     <input type="text" name="name" placeholder="Board Name" v-model="createdBoard.name">
-                    <!-- <button type="submit" class="btn btn-submit">Create Board</button> -->
                   </form>
                 </div>
               </div>
@@ -177,8 +176,6 @@
 
   .faButtons {
     font-size: 1rem;
-    /* color: #444444; */
-    /* color: #c69376; */
     color: #5e796c;
   }
 
@@ -222,8 +219,6 @@
     color: #c69376;
     font-weight: 700;
     margin-bottom: 0
-    /* color: #6c948c; */
-    /* color: #5e796c; */
   }
 
   .list-group-item {
@@ -237,7 +232,6 @@
   .fa-map-pin {
     padding-right: 1rem;
     color: #797691;
-    /* color: #5e796c; */
   }
 
   .border-links h4 {

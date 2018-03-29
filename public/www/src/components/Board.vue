@@ -46,7 +46,7 @@
             }
         },
         mounted() {
-            this.$store.dispatch('authenticate').then(()=>{
+            this.$store.dispatch('authenticate').then(() => {
                 this.$store.dispatch('getBoard', this.$route.params.boardId)
                 this.$store.dispatch('getLists', this.$route.params.boardId)
             }
@@ -82,8 +82,11 @@
 
 <style scoped>
     .board {
-        height: 100vh;
-        background-image: url('../assets/wood.png')
+        /* height: 100vh; */
+        background-image: url('../assets/wood.png');
+        height: fit-content;
+        /* background-size: cover; */
+        background-repeat: repeat;
         /* background-color: #f9f9f9;
         background-image: url("https://www.transparenttextures.com/patterns/purty-wood.png"); */
     }

@@ -198,7 +198,7 @@
     background-position: center;
     background-attachment: fixed;
     overflow:hidden;
-    min-height: 100vh;
+    min-height: 90vh;
   }
 
   .Home {

@@ -90,7 +90,7 @@
     background-repeat: repeat;
     background-attachment: fixed;
     overflow: hidden;
-    min-height: 100vh;
+    min-height: 90vh;
   }
 
   .margins {

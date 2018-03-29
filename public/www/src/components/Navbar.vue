@@ -65,7 +65,7 @@
 
     .navbar {
         background-color: #797691;
-        /* background-color: #7BA6D0; */
+        min-height: 10vh;
         color: white;
     }
 

@@ -189,9 +189,6 @@
     color: #ce3c29
   }
 
-  body,html {
-    height: 100%;
-  }
   .bg {
     background-image: url('../assets/vuekanban-bg.jpg');
     background-size: cover;
@@ -199,10 +196,6 @@
     background-attachment: fixed;
     overflow:hidden;
     min-height: 90vh;
-  }
-
-  .Home {
-    height: 100%
   }
 
   .effect {

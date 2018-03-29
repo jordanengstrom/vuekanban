@@ -1,29 +1,31 @@
 <template>
-  <div class="board">
+  <div>
     <navbar :user="user"></navbar>
-    <div class="container-fluid">
-      <div class="margins">
-        <div class="flexor">
-          <div class="boards-title">
-            <h2>{{loadBoard.name}}</h2>
-          </div>
-          <div class="aligner">
-            <div class="dropleft">
-              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-plus"></i>
-              </button>
-              <div class="dropdown-menu">
-                <form @submit.prevent="addList()">
-                  <input type="text" name="name" placeholder="List Name" v-model="createdList.name">
-                  <button type="submit" class="btn btn-submit" hidden>Create List</button>
-                </form>
+    <div class="board">
+      <div class="container-fluid">
+        <div class="margins">
+          <div class="flexor">
+            <div class="boards-title">
+              <h2>{{loadBoard.name}}</h2>
+            </div>
+            <div class="aligner">
+              <div class="dropleft">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-plus"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <form @submit.prevent="addList()">
+                    <input type="text" name="name" placeholder="List Name" v-model="createdList.name">
+                    <button type="submit" class="btn btn-submit" hidden>Create List</button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-4" v-for="list in lists">
-            <lists class="marg" :list="list" :board="loadBoard"></lists>
+          <div class="row">
+            <div class="col-sm-4" v-for="list in lists">
+              <lists class="marg" :list="list" :board="loadBoard"></lists>
+            </div>
           </div>
         </div>
       </div>

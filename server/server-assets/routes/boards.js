@@ -41,10 +41,9 @@ router.put('/api/boards/:boardId', (req, res, next) => {
    Boards.findByIdAndUpdate(
        req.params.boardId,
        req.body,
-       { new: true },
-       (err, log) => {
-            if(err){ return res.status(500).send(err);}
-            else {return res.send(log);}
+       { new: true })
+       .then(log =>{
+           return res.send(log)
        })
        .catch(next);
 });

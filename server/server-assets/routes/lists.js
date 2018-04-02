@@ -28,7 +28,7 @@ router.put('/api/boards/:boardId/lists/:listId', (req, res, next) => {
         { new: true })
         .then(log=>{
             res.send(log);
-        })
+        })  
         .catch(next);
 });
 

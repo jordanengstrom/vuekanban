@@ -25,21 +25,20 @@ router.put('/api/boards/:boardId/lists/:listId', (req, res, next) => {
     Lists.findByIdAndUpdate(
         req.params.listId,
         req.body,
-        { new: true },
-        (err, log) => {
-            if (err) {return res.status(500).send(err);}
-            else {return res.send(log);}
+        { new: true })
+        .then(log=>{
+            res.send(log);
         })
         .catch(next);
 });
 
 router.delete('/api/boards/:boardId/lists/:listId', (req, res, next) => {
     Lists.findById(req.params.listId)
-    .then(list => {
-        list.remove();
-        return res.send(list.boardId);
-    })
-    .catch(next);
+        .then(list => {
+            list.remove();
+            return res.send(list.boardId);
+        })
+        .catch(next);
 });
 
 

@@ -28,8 +28,8 @@ router.put('/api/boards/:boardId/lists/:listId/tasks/:taskId/comments/:commentId
         req.body,
         { new: true },
         (err, log) => {
-            if (err) return res.status(500).send(err);
-            return res.send(log);
+            if (err){ return res.status(500).send(err);}
+            else{return res.send(log);}
         })
         .catch(next);
 });

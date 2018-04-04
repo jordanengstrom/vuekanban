@@ -103,10 +103,11 @@ export default new vuex.Store({
                  listId: payload.listId})
                 .then(res => {
                     console.log(res.data)
-                    dispatch('getTasks', 
-                        {listId: res.data.listId,
-                         boardId: res.data.boardId
-                        })
+                    // CHANGE 1:
+                    // dispatch('getTasks', 
+                    //     {listId: res.data.listId,
+                    //      boardId: res.data.boardId
+                    //     })
                     dispatch('getTasks', 
                         {boardId: res.data.boardId, 
                          listId: payload.oldId})

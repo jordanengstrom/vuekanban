@@ -25,11 +25,10 @@ router.put('/api/boards/:boardId/lists/:listId/tasks/:taskId', (req, res, next) 
     Tasks.findByIdAndUpdate(
         req.params.taskId,
         req.body,
-        { new: true },
-        (err, log) => {
-            if (err){ return res.status(500).send(err);}
-            else {return res.send(log);}
-        })
+        { new: true })
+        .then(log=>{
+            res.send(log);
+        })  
         .catch(next);
 });
 
